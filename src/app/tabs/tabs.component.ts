@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.css']
+  standalone: true,
 })
 export class TabsComponent {
-
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

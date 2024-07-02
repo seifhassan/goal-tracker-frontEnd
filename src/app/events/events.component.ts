@@ -5,7 +5,7 @@ import { initFlowbite } from 'flowbite';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  standalone: true,
 })
 export class EventsComponent implements OnInit {
   title = 'web-app';

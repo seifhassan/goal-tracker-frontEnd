@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-popover',
   templateUrl: './popover.component.html',
-  styleUrls: ['./popover.component.css']
+  standalone: true,
 })
 export class PopoverComponent {
-
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

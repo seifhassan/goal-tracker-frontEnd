@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-collapse',
   templateUrl: './collapse.component.html',
-  styleUrls: ['./collapse.component.css']
+  standalone: true,
 })
 export class CollapseComponent {
-
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

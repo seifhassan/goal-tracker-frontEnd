@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-drawer',
   templateUrl: './drawer.component.html',
-  styleUrls: ['./drawer.component.css']
+  standalone: true,
 })
 export class DrawerComponent {
-
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

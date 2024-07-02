@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-dismiss',
   templateUrl: './dismiss.component.html',
-  styleUrls: ['./dismiss.component.css']
+  standalone: true,
 })
 export class DismissComponent {
-
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }
