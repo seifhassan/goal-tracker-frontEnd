@@ -1,0 +1,15 @@
+<div class="p-6 max-w-2xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">📄 Shared Goal</h2>
+
+  <ng-container *ngIf="goal; else loading">
+    <div class="bg-white p-4 rounded shadow">
+      <div class="text-lg font-semibold">{{ goal.title }}</div>
+      <p class="text-sm text-gray-600 mb-2">{{ goal.description }}</p>
+      <p class="text-sm text-gray-500">Deadline: {{ goal.deadline | date }}</p>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <p class="text-gray-500">Loading...</p>
+  </ng-template>
+</div>

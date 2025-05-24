@@ -1,0 +1,183 @@
+<div class="min-h-screen bg-gray-50 p-6">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">📋 My Goals</h1>
+      <button
+        (click)="logout()"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+      >
+        Logout
+      </button>
+    </div>
+
+    <!-- Add Goal -->
+    <div class="mb-4">
+      <button
+        (click)="showModal = true"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+      >
+        ➕ Add New Goal
+      </button>
+    </div>
+
+    <!-- Goal List -->
+    <div *ngIf="groupedGoals.length > 0; else noGoals">
+      <div
+        *ngFor="let goal of groupedGoals"
+        class="bg-white p-4 mb-4 rounded shadow"
+      >
+        <div class="font-semibold text-gray-800">{{ goal.title }}</div>
+        <p class="text-sm text-gray-600 mb-1">{{ goal.description }}</p>
+        <div class="text-sm text-gray-500">
+          📅 {{ goal.deadline | date : "mediumDate" }}
+        </div>
+
+        <!-- Edit/Delete buttons -->
+        <div class="flex gap-3 text-sm mt-2">
+          <button
+            (click)="startEdit(goal)"
+            class="text-blue-600 hover:underline"
+          >
+            Edit
+          </button>
+          <button
+            (click)="deleteGoal(goal.id)"
+            class="text-red-600 hover:underline"
+          >
+            Delete
+          </button>
+        </div>
+
+        <!-- Child goals -->
+        <ul
+          class="mt-2 ml-4 list-disc text-sm text-gray-700"
+          *ngIf="goal.children?.length"
+        >
+          <li *ngFor="let child of goal.children" class="flex justify-between">
+            <span>
+              {{ child.title }} — {{ child.deadline | date : "shortDate" }}
+            </span>
+            <span class="flex gap-2">
+              <button
+                (click)="startEdit(child)"
+                class="text-xs text-blue-600 hover:underline"
+              >
+                Edit
+              </button>
+              <button
+                (click)="deleteGoal(child.id)"
+                class="text-xs text-red-600 hover:underline"
+              >
+                Delete
+              </button>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <ng-template #noGoals>
+      <div class="text-center text-gray-500">
+        You have no goals yet. Start by adding one! ✅
+      </div>
+    </ng-template>
+
+    <!-- Modal -->
+    <div
+      *ngIf="showModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded p-6 w-full max-w-md shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">
+          {{ editingGoalId ? "Edit Goal" : "Create New Goal" }}
+        </h2>
+
+        <form (ngSubmit)="addGoal()" class="space-y-4">
+          <input
+            type="text"
+            [(ngModel)]="newGoal.title"
+            name="title"
+            placeholder="Goal Title"
+            required
+            class="w-full border px-3 py-2 rounded"
+          />
+
+          <textarea
+            [(ngModel)]="newGoal.description"
+            name="description"
+            placeholder="Description"
+            rows="3"
+            class="w-full border px-3 py-2 rounded"
+          ></textarea>
+
+          <input
+            type="date"
+            [(ngModel)]="newGoal.deadline"
+            name="deadline"
+            required
+            class="w-full border px-3 py-2 rounded"
+          />
+
+          <input
+            type="number"
+            [(ngModel)]="newGoal.order"
+            name="order"
+            placeholder="Order"
+            class="w-full border px-3 py-2 rounded"
+          />
+
+          <div *ngIf="!preventParentChange; else lockedParent">
+            <select
+              [(ngModel)]="newGoal.parentId"
+              name="parentId"
+              class="w-full border px-3 py-2 rounded"
+            >
+              <option [ngValue]="null">No parent (root goal)</option>
+              <option
+                *ngFor="let goal of groupedGoals"
+                [ngValue]="goal.id"
+                [hidden]="goal.id === editingGoalId"
+              >
+                {{ goal.title }}
+              </option>
+            </select>
+          </div>
+          <ng-template #lockedParent>
+            <p class="text-sm text-gray-600 italic">
+              This goal has children and cannot be assigned a parent.
+            </p>
+          </ng-template>
+
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              [(ngModel)]="newGoal.isPublic"
+              name="isPublic"
+              id="isPublic"
+            />
+            <label for="isPublic" class="ml-2 text-sm text-gray-700"
+              >Make this goal public</label
+            >
+          </div>
+
+          <div class="flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              (click)="resetForm()"
+              class="text-gray-600 hover:underline"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              {{ editingGoalId ? "Update" : "Create" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
