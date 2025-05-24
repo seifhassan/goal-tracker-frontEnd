@@ -43,5 +43,5 @@ src/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/goal-tracker-frontend.git
+git clone https://github.com/seifhassan/goal-tracker-frontEnd.git
 cd goal-tracker-frontend
